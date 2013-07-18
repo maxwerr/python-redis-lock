@@ -8,7 +8,7 @@ with open('README.md', 'r') as f:
 
 setup(
     name='redislock',
-    version = '0.1',
+    version = '0.4.0',
     description='Locks on top of redis.',
     author='Apostolis Bessas',
     author_email='mpessas@gmail.com',
