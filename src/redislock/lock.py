@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from contextlib import contextmanager
 from redis import Redis
 
 
@@ -54,12 +53,11 @@ class Lock(object):
             self.redis_connection.lpush(self._mutex, 1)
 
 
-@contextmanager
-def lock(name, redis_connection, timeout=60):
-    """Lock on name using redis."""
-    l = Lock(name, redis_connection, timeout)
-    try:
-        l.lock()
-        yield
-    finally:
-        l.unlock()
+class lock():
+    def __init__(self, name, redis_connection, timeout=60):
+        self.l = Lock(name, redis_connection, timeout)
+    def __enter__(self):
+        self.l.lock()
+        return self.l
+    def __exit__(self, type, value, traceback):
+        self.l.unlock()
